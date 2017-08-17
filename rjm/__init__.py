@@ -18,44 +18,70 @@ class JournalMaker(object):
         if permissive:
             self._add_entry(templates.INIT_DEBUG)
 
+    def _new_from_rft(self, base_template, rft_file):
+        self._add_entry(base_template)
+        self._add_entry(templates.NEW_FROM_RFT \
+                                 .format(rft_file_path=rft_file,
+                                         rft_file_name=op.basename(rft_file)))
+
+    def new_family(self, base_rft_file):
+        self._new_from_rft(templates.NEW_FAMILY, base_rft_file)
+
+    def new_conceptual_mass(self, base_rft_file):
+        self._new_from_rft(templates.NEW_CONCEPTUAL_MASS, base_rft_file)
+
+    def new_titleblock(self, base_rft_file):
+        self._new_from_rft(templates.NEW_TITLEBLOCK, base_rft_file)
+
+    def new_annotation(self, base_rft_file):
+        self._new_from_rft(templates.NEW_ANNOTATION_SYM, base_rft_file)
+
+    def new_model(self, template_name='<None>'):
+        self._add_entry(templates.NEW_MODEL \
+                                 .format(template_name=template_name))
+
+    def new_template(self, template_name='<None>'):
+        self._add_entry(templates.NEW_MODEL_TEMPLATE \
+                                 .format(template_name=template_name))
+
     def open_workshared_model(self, model_path, central=False, detached=False, keep_worksets=True, audit=False):
         if detached:
             if audit:
                 if keep_worksets:
                     self._add_entry(templates.CENTRAL_OPEN_DETACH_AUDIT \
-                                             .format(journal_model_path=model_path))
+                                             .format(model_path=model_path))
                 else:
                     self._add_entry(templates.CENTRAL_OPEN_DETACH_AUDIT_DISCARD \
-                                             .format(journal_model_path=model_path))
+                                             .format(model_path=model_path))
             else:
                 if keep_worksets:
                     self._add_entry(templates.CENTRAL_OPEN_DETACH \
-                                             .format(journal_model_path=model_path))
+                                             .format(model_path=model_path))
                 else:
                     self._add_entry(templates.CENTRAL_OPEN_DETACH_DISCARD \
-                                             .format(journal_model_path=model_path))
+                                             .format(model_path=model_path))
         elif central:
             if audit:
                 self._add_entry(templates.CENTRAL_OPEN_AUDIT \
-                                         .format(journal_model_path=model_path))
+                                         .format(model_path=model_path))
             else:
                 self._add_entry(templates.CENTRAL_OPEN \
-                                         .format(journal_model_path=model_path))
+                                         .format(model_path=model_path))
         else:
             if audit:
                 self._add_entry(templates.WORKSHARED_OPEN_AUDIT \
-                                         .format(journal_model_path=model_path))
+                                         .format(model_path=model_path))
             else:
                 self._add_entry(templates.WORKSHARED_OPEN \
-                                         .format(journal_model_path=model_path))
+                                         .format(model_path=model_path))
 
     def open_model(self, model_path, audit=False):
         if audit:
             self._add_entry(templates.FILE_OPEN_AUDIT \
-                                     .format(journal_model_path=model_path))
+                                     .format(model_path=model_path))
         else:
             self._add_entry(templates.FILE_OPEN \
-                                     .format(journal_model_path=model_path))
+                                     .format(model_path=model_path))
 
     def ignore_missing_links(self):
         self._add_entry(templates.IGNORE_MISSING_LINKS)
@@ -75,6 +101,10 @@ class JournalMaker(object):
 
             data_str = '_\n    ,'.join(data_str_list)
             self._add_entry(templates.EXTERNAL_COMMANDDATA.format(data_count=data_count, data_string=data_str))
+
+    def import_family(self, rfa_file):
+        self._add_entry(templates.IMPORT_FAMILY \
+                                 .format(family_file=rfa_file))
 
     def add_custom_entry(self, entry_string):
         self._add_entry(entry_string)
@@ -108,7 +138,7 @@ class JournalMaker(object):
         if save_local:
             self._add_entry(templates.FILE_SYNC_RELEASE_SAVELOCAL)
 
-        self._add_entry(templates.FILE_SYNC_COMMENT_OK.format(journal_sync_comment=comment))
+        self._add_entry(templates.FILE_SYNC_COMMENT_OK.format(sync_comment=comment))
 
     def write_journal(self, journal_file_path):
         with open(journal_file_path, "w") as jrn_file:

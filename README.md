@@ -1,4 +1,4 @@
-# revit_journal_maker
+# Revit Journal Maker
 
 python libray for writing/reading journal files for Autodesk Revit
 
@@ -8,12 +8,24 @@ python libray for writing/reading journal files for Autodesk Revit
 import rjm
 journal_maker = rjm.JournalMaker(permissive=True)
 
+# creating a new model (template_name is optional)
+journal_maker.new_model(template_name='My Template')
+
+# creating a new template model (template_name is optional)
+journal_maker.new_template(template_name='My Template for Templates')
+
+# creating other types
+journal_maker.new_family(base_rft_file)
+journal_maker.new_conceptual_mass(base_rft_file):
+journal_maker.new_titleblock(base_rft_file):
+journal_maker.new_annotation(base_rft_file):
+
 # opening workshared model
 journal_maker.open_workshared_model(model_full_path,
-									central=False,
-									detached=True,
-									keep_worksets=True,
-									audit=False)
+                                    central=False,
+                                    detached=True,
+                                    keep_worksets=True,
+                                    audit=False)
 
 # opening non-workshared model
 journal_maker.open_model(model_full_path)
@@ -31,6 +43,9 @@ journal_maker.execute_command(tab_name='Add-Ins',
                               command_module='Addon Application Namespace',
                               command_class='Command Classname',
                               command_data=cmdata)
+
+# load a family
+journal_maker.import_family(RFA_file_path)
 
 # ask journal to export warnings using Revit UI
 journal_maker.export_warnings(export_filepath)
@@ -62,5 +77,8 @@ Under Development
 
 ``` python
 import rjm
-journal_reader = rjm.JournalReader()
+journal_reader = rjm.JournalReader(active_journal_file)
+
+# checking to see if the journal has crashed and stopped
+journal_reader.is_stopped()
 ```

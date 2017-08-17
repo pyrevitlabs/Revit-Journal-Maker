@@ -14,12 +14,64 @@ Jrn.Directive "DebugMode", "PermissiveJournal", 1
 """
 
 
+NEW_MODEL = """' Create new model
+Jrn.Command "Ribbon" , "Create a new project , ID_FILE_NEW_CHOOSE_TEMPLATE"
+Jrn.ComboBox "Modal , New Project , Dialog_Revit_NewProject" _
+    , "Control_Revit_TemplateCombo" _
+    , "Select" , "{template_name}"
+Jrn.RadioButton "Modal , New Project , Dialog_Revit_NewProject" _
+    , "Project, Control_Revit_RadioNewProject"
+Jrn.PushButton "Modal , New Project , Dialog_Revit_NewProject" _
+    , "OK, IDOK"
+"""
+
+
+NEW_MODEL_TEMPLATE = """' Create new template model
+Jrn.Command "Ribbon" , "Create a new project , ID_FILE_NEW_CHOOSE_TEMPLATE"
+Jrn.ComboBox "Modal , New Project , Dialog_Revit_NewProject" _
+    , "Control_Revit_TemplateCombo" _
+    , "Select" , "{template_name}"
+Jrn.RadioButton "Modal , New Project , Dialog_Revit_NewProject" _
+    , "Project template, Control_Revit_RadioNewTemplate"
+Jrn.PushButton "Modal , New Project , Dialog_Revit_NewProject" _
+    , "OK, IDOK"
+"""
+
+
+NEW_FAMILY = """' Create new family model
+Jrn.Command "Ribbon" , "Create a new family , ID_FAMILY_NEW"
+"""
+
+
+NEW_CONCEPTUAL_MASS = """' Create new conceptual mass
+Jrn.Command "Ribbon" , "Create a new conceptual mass , ID_NEW_REVIT_DESIGN_MODEL"
+"""
+
+
+NEW_TITLEBLOCK = """' Create new family model
+Jrn.Command "Ribbon" , "Create a new titleblock , ID_TITLEBLOCK_NEW"
+"""
+
+
+NEW_ANNOTATION_SYM = """' Create new family model
+Jrn.Command "Ribbon" , "Create a new annotation symbol family , ID_ANNOTATION_SYMBOL_NEW"
+"""
+
+
+NEW_FROM_RFT = """' Get input rft file
+Jrn.Data "FileDialog"  _
+    , "IDOK", "{rft_file_path}", "rft" _
+    , "{rft_file_name}", "{rft_file_name}"
+Jrn.Data "FileType"  _
+    , "Family Template Files (*.rft)"
+"""
+
 CENTRAL_OPEN_DETACH = """' Opening workshared model as detached
 Jrn.Command "Ribbon" , "Open an existing project , ID_REVIT_FILE_OPEN"
 Jrn.Data "FileOpenSubDialog" , "OpenAsLocalCheckBox", "True"
 Jrn.Data "FileOpenSubDialog" , "DetachCheckBox", "True"
 Jrn.Data "FileOpenSubDialog" , "OpenAsLocalCheckBox", "False"
-Jrn.Data "File Name" , "IDOK", "{journal_model_path}"
+Jrn.Data "File Name" , "IDOK", "{model_path}"
 Jrn.Data "WorksetConfig" , "Custom", 1
 Jrn.PushButton "Modal , Opening Worksets , Dialog_Revit_Partitions", "OK, IDOK"
 Jrn.Data "TaskDialogResult" _
@@ -37,7 +89,7 @@ Jrn.Data "FileOpenSubDialog" , "AuditCheckBox", "True"
 Jrn.Data "TaskDialogResult"  _
     , "This operation can take a long time. Recommended use includes periodic maintenance of large files and preparation for upgrading to a new release. Do you want to continue?",  _
     "Yes", "IDYES"
-Jrn.Data "File Name" , "IDOK", "{journal_model_path}"
+Jrn.Data "File Name" , "IDOK", "{model_path}"
 Jrn.Data "WorksetConfig" , "Custom", 1
 Jrn.PushButton "Modal , Opening Worksets , Dialog_Revit_Partitions", "OK, IDOK"
 Jrn.Data "TaskDialogResult" _
@@ -53,7 +105,7 @@ Jrn.Data "FileOpenSubDialog" , "OpenAsLocalCheckBox", "True"
 Jrn.Data "FileOpenSubDialog" , "DetachCheckBox", "True"
 Jrn.Data "FileOpenSubDialog" , "OpenAsLocalCheckBox", "False"
 Jrn.Data "FileOpenSubDialog" , "AuditCheckBox", "False"
-Jrn.Data "File Name" , "IDOK", "{journal_model_path}"
+Jrn.Data "File Name" , "IDOK", "{model_path}"
 Jrn.Data "WorksetConfig" , "Custom", 1
 Jrn.PushButton "Modal , Opening Worksets , Dialog_Revit_Partitions", "OK, IDOK"
 Jrn.Data "TaskDialogResult" _
@@ -72,7 +124,7 @@ Jrn.Data "FileOpenSubDialog" , "AuditCheckBox", "True"
 Jrn.Data "TaskDialogResult"  _
     , "This operation can take a long time. Recommended use includes periodic maintenance of large files and preparation for upgrading to a new release. Do you want to continue?",  _
     "Yes", "IDYES"
-Jrn.Data "File Name" , "IDOK", "{journal_model_path}"
+Jrn.Data "File Name" , "IDOK", "{model_path}"
 Jrn.Data "WorksetConfig" , "Custom", 1
 Jrn.PushButton "Modal , Opening Worksets , Dialog_Revit_Partitions", "OK, IDOK"
 Jrn.Data "TaskDialogResult" _
@@ -86,7 +138,7 @@ CENTRAL_OPEN = """' Opening workshared model as central
 Jrn.Command "Ribbon" , "Open an existing project , ID_REVIT_FILE_OPEN"
 Jrn.Data "FileOpenSubDialog" , "OpenAsLocalCheckBox", "False"
 Jrn.Data "FileOpenSubDialog" , "AuditCheckBox", "False"
-Jrn.Data "File Name" , "IDOK", "{journal_model_path}"
+Jrn.Data "File Name" , "IDOK", "{model_path}"
 Jrn.Data "WorksetConfig" , "Custom", 1
 Jrn.PushButton "Modal , Opening Worksets , Dialog_Revit_Partitions", "OK, IDOK"
 Jrn.Directive "DocSymbol" , "[]"
@@ -100,7 +152,7 @@ Jrn.Data "FileOpenSubDialog" , "AuditCheckBox", "True"
 Jrn.Data "TaskDialogResult"  _
     , "This operation can take a long time. Recommended use includes periodic maintenance of large files and preparation for upgrading to a new release. Do you want to continue?",  _
     "Yes", "IDYES"
-Jrn.Data "File Name" , "IDOK", "{journal_model_path}"
+Jrn.Data "File Name" , "IDOK", "{model_path}"
 Jrn.Data "WorksetConfig" , "Custom", 1
 Jrn.PushButton "Modal , Opening Worksets , Dialog_Revit_Partitions", "OK, IDOK"
 Jrn.Directive "DocSymbol" , "[]"
@@ -110,7 +162,7 @@ Jrn.Directive "DocSymbol" , "[]"
 WORKSHARED_OPEN = """' Opening non-workshared model
 Jrn.Command "Ribbon" , "Open an existing project , ID_REVIT_FILE_OPEN"
 Jrn.Data "FileOpenSubDialog" , "AuditCheckBox", "False"
-Jrn.Data "File Name" , "IDOK", "{journal_model_path}"
+Jrn.Data "File Name" , "IDOK", "{model_path}"
 Jrn.Data "WorksetConfig" , "Custom", 1
 Jrn.PushButton "Modal , Opening Worksets , Dialog_Revit_Partitions", "OK, IDOK"
 Jrn.Directive "DocSymbol" , "[]"
@@ -123,7 +175,7 @@ Jrn.Data "FileOpenSubDialog" , "AuditCheckBox", "True"
 Jrn.Data "TaskDialogResult"  _
     , "This operation can take a long time. Recommended use includes periodic maintenance of large files and preparation for upgrading to a new release. Do you want to continue?",  _
     "Yes", "IDYES"
-Jrn.Data "File Name" , "IDOK", "{journal_model_path}"
+Jrn.Data "File Name" , "IDOK", "{model_path}"
 Jrn.Data "WorksetConfig" , "Custom", 1
 Jrn.PushButton "Modal , Opening Worksets , Dialog_Revit_Partitions", "OK, IDOK"
 Jrn.Directive "DocSymbol" , "[]"
@@ -133,7 +185,7 @@ Jrn.Directive "DocSymbol" , "[]"
 FILE_OPEN = """' Opening non-workshared model
 Jrn.Command "Ribbon" , "Open an existing project , ID_REVIT_FILE_OPEN"
 Jrn.Data "FileOpenSubDialog" , "AuditCheckBox", "False"
-Jrn.Data "File Name" , "IDOK", "{journal_model_path}"
+Jrn.Data "File Name" , "IDOK", "{model_path}"
 Jrn.Data "WorksetConfig" , "Custom", 0
 Jrn.Directive "DocSymbol" , "[]"
 """
@@ -145,7 +197,7 @@ Jrn.Data "FileOpenSubDialog" , "AuditCheckBox", "True"
 Jrn.Data "TaskDialogResult"  _
     , "This operation can take a long time. Recommended use includes periodic maintenance of large files and preparation for upgrading to a new release. Do you want to continue?",  _
     "Yes", "IDYES"
-Jrn.Data "File Name" , "IDOK", "{journal_model_path}"
+Jrn.Data "File Name" , "IDOK", "{model_path}"
 Jrn.Data "WorksetConfig" , "Custom", 0
 Jrn.Directive "DocSymbol" , "[]"
 """
@@ -164,6 +216,43 @@ Jrn.Data "APIStringStringMapJournalData"  _
 """
 
 
+IMPORT_FAMILY = """' Importing family
+Jrn.Command "Ribbon" , "Load a family into the project , ID_FAMILY_LOAD"
+Jrn.Data "File Name"  _
+    , "IDOK", "{family_file}"
+Jrn.Data "FileExternalTypes"  _
+    , ""
+Jrn.Data "Transaction Successful"  _
+    , "Load Family"
+"""
+
+
+# not working - needs count and list of all view and sheets
+EXPORT_CAD = """
+Jrn.Command "Ribbon" , " , ID_EXPORT_DWG"
+Jrn.ComboBox "Modal , DWG Export , Dialog_Revit_AdrExportPersistentDlg" _
+    , "Control_Revit_CBExportSettings" _
+    , "Select" , "<in-session export setup>"
+    , "Select" , "{export_setup_config}"
+Jrn.ComboBox "Modal , DWG Export , Dialog_Revit_AdrExportPersistentDlg" _
+    , "Control_Revit_ExportSet" _
+    , "Select" , "<current view/sheet only>"
+    , "Select" , "<in-session view/sheet set>"
+    , "Select" , "{export_sheet_set}"
+Jrn.PushButton "Modal , DWG Export , Dialog_Revit_AdrExportPersistentDlg" _
+    , "Next..., IDOK"
+Jrn.Data "Export File Answer", "IDOK"
+Jrn.Data "Export Number Of Views", "{export_view_count}"
+' this line will repeat depending on number of views or sheets exported
+[Jrn.Data "Export View Names", "{export_view_or_sheet_name}"]
+' 0 or 1
+Jrn.Data "Export As Single File", "{export_single}"
+Jrn.Data "Export File Name Type", "2"
+Jrn.Data "Export File Name", "1"
+Jrn.Data "Export File Name", "{export_file_path}"
+"""
+
+
 FILE_CLOSE = """' Closing model
 Jrn.Command "SystemMenu" , "Quit the application; prompts to save projects , ID_APP_EXIT"
 Jrn.Data "TaskDialogResult" , "Do you want to save changes to Untitled?", "No", "IDNO"
@@ -179,11 +268,13 @@ FILE_SYNC_START = """' Syncing model
 Jrn.Command "Ribbon" , "Save the active project back to the Central Model , ID_FILE_SAVE_TO_MASTER"
 """
 
-FILE_SYNC_COMPACT = """' Set compact central checkbox to {journal_compact_central}
+
+FILE_SYNC_COMPACT = """' Set compact central checkbox to {compact_central}
 Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMaster" _
 	, "Compact Central Model (slow), Control_Revit_ForceCompactCentralModel" _
-	, {journal_compact_central}
+	, {compact_central}
 """
+
 
 FILE_SYNC_RELEASE_BORROWED = """' Set compact central checkbox
 Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMaster" _
@@ -191,11 +282,13 @@ Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMa
 	, True
 """
 
+
 FILE_SYNC_RELEASE_USERWORKSETS = """' Set compact central checkbox
 Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMaster" _
 	, "User-created Worksets, Control_Revit_RelinqUserCreatedPartitions" _
 	, True
 """
+
 
 FILE_SYNC_RELEASE_SAVELOCAL = """' Set compact central checkbox to
 Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMaster" _
@@ -203,13 +296,15 @@ Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMa
 	, True
 """
 
+
 FILE_SYNC_COMMENT_OK = """' Commenting and Okaying the sync dialog
 Jrn.Edit "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMaster" _
 	, "Control_Revit_Comment" _
-	, "ReplaceContents" , "{journal_sync_comment}"
+	, "ReplaceContents" , "{sync_comment}"
 Jrn.PushButton "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMaster" _
 	, "OK, IDOK"
 """
+
 
 IGNORE_MISSING_LINKS = """' Ignoring missing links
 Jrn.Data "TaskDialogResult"  _
