@@ -31,14 +31,18 @@ __version__ = '1.0.0'
 
 
 class JournalMaker(object):
+    """ Handles composing and writing a journal file for Autodesk Revit.
+    """
+
     def __init__(self, permissive=True):
         """ Inititalized the journal maker object and appends the first
         lines in the journal (JrnObj variable and timestamp) to the
         _journal_contents.
 
         Args:
-            permissive: if True most errors in journal will not
-                        cause Revit to stop journal execution. Some still do.
+            permissive (bool): if True most errors in journal will not
+                              cause Revit to stop journal execution.
+                              Some still do.
         """
 
         self._journal_contents = ''
@@ -54,12 +58,13 @@ class JournalMaker(object):
         self._journal_contents += entry_string
 
     def _init_journal(self, permissive=True):
-        """ Appends the first lines in the journal (JrnObj variable and
+        """ Adds the initialization lines to the journal (JrnObj variable and
         timestamp) to the journal contents.
 
         Args:
-            permissive: if True most errors in journal will not
-                        cause Revit to stop journal execution. Some still do.
+            permissive (bool): if True most errors in journal will not
+                              cause Revit to stop journal execution.
+                              Some still do.
         """
 
         nowstamp = datetime.now().strftime("%d-%b-%Y %H:%M:%S.%f")[:-3]
@@ -69,12 +74,12 @@ class JournalMaker(object):
             self._add_entry(templates.INIT_DEBUG)
 
     def _new_from_rft(self, base_template, rft_file):
-        """ Appends a new file from .rft to the journal. This causes Revit to
-        create a new model based on the provided .rft template.
+        """ Appends a new file from .rft entry to the journal. This instructs
+        Revit to create a new model based on the provided .rft template.
 
         Args:
-            base_template: new file journal template from rmj.templates
-            rft_file: full path to .rft template to be used
+            base_template (str): new file journal template from rmj.templates
+            rft_file (str): full path to .rft template to be used
         """
 
         self._add_entry(base_template)
@@ -83,56 +88,87 @@ class JournalMaker(object):
                                          rft_file_name=op.basename(rft_file)))
 
     def new_family(self, base_rft_file):
-        """ Appends a new family from .rft to the journal. This causes Revit to
-        create a new family based on the provided .rft template.
+        """ Appends a new family from .rft entry to the journal. This instructs
+        Revit to create a new family based on the provided .rft template.
 
         Args:
-            base_rft_file: full path to .rft family template to be used
+            base_rft_file (str): full path to .rft family template
         """
 
         self._new_from_rft(templates.NEW_FAMILY, base_rft_file)
 
     def new_conceptual_mass(self, base_rft_file):
-        """ Appends a new conceptual mass from .rft to the journal.
-        This causes Revit to create a new conceptual mass based on the
+        """ Appends a new conceptual mass from .rft entry to the journal.
+        This instructs Revit to create a new conceptual mass based on the
         provided .rft template.
 
         Args:
-            base_rft_file: full path to .rft conceptual mass template to be used
+            base_rft_file (str): full path to .rft conceptual mass template
         """
 
         self._new_from_rft(templates.NEW_CONCEPTUAL_MASS, base_rft_file)
 
     def new_titleblock(self, base_rft_file):
-        """ Appends a new titleblock from .rft to the journal. This causes
-        Revit to create a new titleblock based on the provided .rft template.
+        """ Appends a new titleblock from .rft entry to the journal.
+        This instructs Revit to create a new titleblock based on the
+        provided .rft template.
 
         Args:
-            base_rft_file: full path to .rft titleblock template to be used
+            base_rft_file (str): full path to .rft titleblock template
         """
 
         self._new_from_rft(templates.NEW_TITLEBLOCK, base_rft_file)
 
     def new_annotation(self, base_rft_file):
-        """ Appends a new annotation from .rft to the journal. This causes
-        Revit to create a new annotation based on the provided .rft template.
+        """ Appends a new annotation from .rft entry to the journal.
+        This instructs Revit to create a new annotation based on the
+        provided .rft template.
 
         Args:
-            base_rft_file: full path to .rft annotation template to be used
+            base_rft_file (str): full path to .rft annotation template
         """
 
         self._new_from_rft(templates.NEW_ANNOTATION_SYM, base_rft_file)
 
     def new_model(self, template_name='<None>'):
+        """ Appends a new model from .rft entry to the journal.
+        This instructs Revit to create a new model based on the
+        provided .rft template.
+
+        Args:
+            template_name (str): optional full path to .rft template to be used.
+                                 default value is <None>
+        """
+
         self._add_entry(templates.NEW_MODEL
                                  .format(template_name=template_name))
 
     def new_template(self, template_name='<None>'):
+        """ Appends a new template from .rft entry to the journal.
+        This instructs Revit to create a new template model based on the
+        provided .rft template.
+
+        Args:
+            template_name (str): optional full path to .rft template to be used.
+                                 default value is <None>
+        """
+
         self._add_entry(templates.NEW_MODEL_TEMPLATE
                                  .format(template_name=template_name))
 
     def open_workshared_model(self, model_path, central=False,
                               detached=False, keep_worksets=True, audit=False):
+        """ Appends a open workshared model entry to the journal.
+        This instructs Revit to open a workshared model.
+
+        Args:
+            model_path (str): full path to workshared model
+            central (bool): if True opens central model and not local
+            detached (bool): if True opens a detached model
+            keep_worksets (bool): if True keeps worksets when detaching
+            audit (bool): if True audits the model when opening
+        """
+
         if detached:
             if audit:
                 if keep_worksets:
@@ -164,6 +200,14 @@ class JournalMaker(object):
                                          .format(model_path=model_path))
 
     def open_model(self, model_path, audit=False):
+        """ Appends a open non-workshared model entry to the journal.
+        This instructs Revit to open a non-workshared model.
+
+        Args:
+            model_path (str): full path to non-workshared model
+            audit (bool): if True audits the model when opening
+        """
+
         if audit:
             self._add_entry(templates.FILE_OPEN_AUDIT
                                      .format(model_path=model_path))
@@ -172,20 +216,50 @@ class JournalMaker(object):
                                      .format(model_path=model_path))
 
     def ignore_missing_links(self):
+        """ Appends a ignore missing links entry to the journal.
+        This instructs Revit to ignore missing links when opening models.
+        """
+
         self._add_entry(templates.IGNORE_MISSING_LINKS)
 
     def execute_command(self, tab_name, panel_name,
                         command_module, command_class, command_data=None):
+        """ Appends an execute external command entry to the journal.
+        This instructs Revit to execute the provided command from the
+        provided module, tab, and panel.
+
+        Args:
+            tab_name (str): name of ribbon tab that contains the command
+            panel_name (str): name of ribbon panel that contains the command
+            command_module (str): name of module that provides the command
+            command_class (str): name of command class inside command module
+            command_data (dict): dict of string data to be passed to the command
+
+        Examples:
+            >>> jm = JournalMaker()
+            >>> cmdata = {'key1':'value1', 'key2':'value2'}
+            >>> jm.execute_command(tab_name='Add-Ins',
+            ...                    panel_name='Panel Name',
+            ...                    command_module='Addon Application Namespace',
+            ...                    command_class='Command Classname',
+            ...                    command_data=cmdata)
+        """
+
+        # make sure command_data is not empty
         command_data = {} if command_data is None else command_data
+        # make the canonical name for the command
         cmdclassname = '{}.{}'.format(command_module, command_class)
+
         self._add_entry(templates.EXTERNAL_COMMAND
                                  .format(external_command_tab=tab_name,
                                          external_command_panel=panel_name,
                                          command_class_name=command_class,
                                          command_class=cmdclassname))
 
+        # count the data
         data_count = len(command_data.keys())
 
+        # create the entry for the command data
         if data_count > 0:
             data_str_list = []
             for k, v in command_data.items():
@@ -197,13 +271,35 @@ class JournalMaker(object):
                                              data_string=data_str))
 
     def import_family(self, rfa_file):
+        """ Appends a import family entry to the journal.
+        This instructs Revit to import a family into the opened model.
+
+        Args:
+            rfa_file (str): full path of the family file
+        """
+
         self._add_entry(templates.IMPORT_FAMILY
                                  .format(family_file=rfa_file))
 
     def add_custom_entry(self, entry_string):
+        """ Appends a custom journal entry to the journal.
+
+        Args:
+            entry_string (str): custom journal entry
+        """
+
         self._add_entry(entry_string)
 
     def export_warnings(self, export_file):
+        """ Appends an export warnings entry to the journal.
+        This instructs Revit to export warnings from the opened model.
+        Currently Revit will stop journal execution if the model does not
+        have any warnings and the export warnings UI button is disabled.
+
+        Args:
+            export_file (str): full path of the ouput html file
+        """
+
         warn_filepath = op.dirname(export_file)
         warn_filename = op.splitext(op.basename(export_file))[0]
         self._add_entry(templates.EXPORT_WARNINGS
@@ -211,18 +307,51 @@ class JournalMaker(object):
                                          warnings_export_file=warn_filename))
 
     def purge_unused(self, pass_count=3):
+        """ Appends an purge model entry to the journal.
+        This instructs Revit to purge the open model.
+
+        Args:
+            pass_count (int): number of times to execute the purge.
+                              default is 3
+        """
+
         for purge_count in range(0, pass_count):
             self._add_entry(templates.PROJECT_PURGE)
 
     def close_model(self):
+        """ Appends a close model entry to the journal.
+        This instructs Revit to close the currently open model.
+        """
+
+        self._add_entry(templates.FILE_CLOSE)
+
+    def exit(self):
+        """ Appends a exit Revit entry to the journal.
+        This instructs Revit to close the currently open model and exit.
+        """
+
         self._add_entry(templates.FILE_CLOSE)
 
     def save_model(self):
+        """ Appends a save model entry to the journal.
+        This instructs Revit to save the currently open model.
+        """
+
         self._add_entry(templates.FILE_SAVE)
 
     def sync_model(self, comment='', compact_central=False,
                    release_borrowed=True, release_workset=True,
                    save_local=False):
+        """ Appends a sync model entry to the journal.
+        This instructs Revit to sync the currently open workshared model.
+
+        Args:
+            comment (str): comment to be provided for the sync step
+            compact_central (bool): if True compacts the central file
+            release_borrowed (bool): if True releases the borrowed elements
+            release_workset (bool): if True releases the borrowed worksets
+            save_local (bool): if True saves the local file as well
+        """
 
         self._add_entry(templates.FILE_SYNC_START)
 
@@ -239,19 +368,51 @@ class JournalMaker(object):
                                  .format(sync_comment=comment))
 
     def write_journal(self, journal_file_path):
+        """ Writes the constructed journal in to the provided file.
+
+        Args:
+            journal_file_path (str): full path to output journal file
+        """
+        # TODO: assert the extension is txt and not other
         with open(journal_file_path, "w") as jrn_file:
             jrn_file.write(self._journal_contents)
 
 
 class JournalReader(object):
+    """ Handles reading and interpretting a journal file from Autodesk Revit.
+    """
+
     def __init__(self, journal_file):
+        """ Initialized the reader object with path to the target journal file.
+
+        Args:
+            journal_file (str): full path to target journal file
+        """
+
         self._jrnl_file = journal_file
 
     def _read_journal(self):
+        """ Private method that reads the journal file contents
+
+        Returns:
+            str: journal file contents
+        """
+
         with open(self._jrnl_file, 'r') as jrn_file:
             return jrn_file.read()
 
     def endswith(self, search_str):
+        """ Checks whether the provided string exists in the last 5 lines of
+        the journal file. This method is usually used when tracking a journal
+        from an active Revit session.
+
+        Args:
+            search_str (str): string to search for
+
+        Returns:
+            bool: if True the search string is found
+        """
+
         for entry in reversed(list(open(self._jrnl_file, 'r'))[-5:]):
             if search_str in entry:
                 return True
@@ -259,4 +420,10 @@ class JournalReader(object):
         return False
 
     def is_stopped(self):
+        """ Checks whether the journal execution has stopped when tracking
+        a journal from an active Revit session.
+
+        Returns:
+            bool: True if the journal execution has stopped
+        """
         return self.endswith(entries.MODAL_OPEN)
