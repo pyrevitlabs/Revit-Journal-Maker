@@ -1,8 +1,15 @@
+"""
+python libray for writing/reading journal files for Autodesk Revit
+"""
+
 import os.path as op
 from datetime import datetime
 
 from rjm import templates
 from rjm import entries
+
+
+__version__ = "0.1.0"
 
 
 class JournalMaker(object):
