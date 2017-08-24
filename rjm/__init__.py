@@ -16,7 +16,6 @@ This module is an effort to streamline the process of journal creation and
 interpretation.
 
 See README.md for examples
-
 """
 
 import os.path as op
