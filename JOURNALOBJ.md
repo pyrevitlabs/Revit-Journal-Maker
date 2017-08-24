@@ -10,7 +10,7 @@ VBScript object type is `ICRSXJournal` but can't find any documentation on it.
 
 ### Functions are defined in:
 
-`Utility.dll @ C:\Program Files\Autodesk\Revit 2017\Utility.dll`
+`Utility.dll @ C:\Program Files\Autodesk\Revit <version>\Utility.dll`
 
 ------
 ### Collected Docs on Exported Functions:
