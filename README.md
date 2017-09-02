@@ -25,7 +25,8 @@ journal_maker.open_workshared_model(model_full_path,
                                     central=False,
                                     detached=True,
                                     keep_worksets=True,
-                                    audit=False)
+                                    audit=False,
+                                    show_workset_config=1)
 
 # opening non-workshared model
 journal_maker.open_model(model_full_path)
