@@ -1,10 +1,10 @@
-# Revit Journal Maker
+import sys
+import os.path as op
 
-python libray for writing/reading journal files for Autodesk Revit
+testpath = op.dirname(__file__)
+sys.path.append(op.dirname(testpath))
 
-## Writing Journals
 
-``` python
 import rjm
 journal_maker = rjm.JournalMaker(permissive=True)
 
@@ -15,13 +15,13 @@ journal_maker.new_model(template_name='My Template')
 journal_maker.new_template(template_name='My Template for Templates')
 
 # creating other types
-journal_maker.new_family(base_rft_file)
-journal_maker.new_conceptual_mass(base_rft_file)
-journal_maker.new_titleblock(base_rft_file)
-journal_maker.new_annotation(base_rft_file)
+journal_maker.new_family('base_rft_file')
+journal_maker.new_conceptual_mass('base_rft_file')
+journal_maker.new_titleblock('base_rft_file')
+journal_maker.new_annotation('base_rft_file')
 
 # opening workshared model
-journal_maker.open_workshared_model(model_full_path,
+journal_maker.open_workshared_model('model_full_path',
                                     central=False,
                                     detached=True,
                                     keep_worksets=True,
@@ -29,13 +29,13 @@ journal_maker.open_workshared_model(model_full_path,
                                     show_workset_config=1)
 
 # opening non-workshared model
-journal_maker.open_model(model_full_path)
+journal_maker.open_model('model_full_path')
 
 # ignore missing links
 journal_maker.ignore_missing_links()
 
 # add custom entry to journal
-journal_maker.add_custom_entry(journal_entry)
+journal_maker.add_custom_entry('journal_entry')
 
 # execute an addon command
 cmdata = {}     # dict of data to be passed to command in journal
@@ -46,10 +46,10 @@ journal_maker.execute_command(tab_name='Add-Ins',
                               command_data=cmdata)
 
 # load a family
-journal_maker.import_family(RFA_file_path)
+journal_maker.import_family('RFA_file_path')
 
 # ask journal to export warnings using Revit UI
-journal_maker.export_warnings(export_filepath)
+journal_maker.export_warnings('export_filepath')
 
 # ask journal to purge unused warnings using Revit UI
 journal_maker.purge_unused(pass_count=3)
@@ -68,18 +68,4 @@ journal_maker.save_model()
 journal_maker.close_model()
 
 # finally
-journal_maker.write_journal(journal_filepath)
-```
-
-
-## Reading Journals
-
-Under Development
-
-``` python
-import rjm
-journal_reader = rjm.JournalReader(active_journal_file)
-
-# checking to see if the journal has crashed and stopped
-journal_reader.is_stopped()
-```
+journal_maker.write_journal(op.join(testpath, 'journal.txt'))
