@@ -28,7 +28,7 @@ from rjm import entries
 
 
 # rjm version
-__version__ = '1.1.1'
+__version__ = '1.2.0'
 
 
 class JournalMaker(object):
@@ -295,6 +295,33 @@ class JournalMaker(object):
             self._add_entry(templates.EXTERNAL_COMMANDDATA
                                      .format(data_count=data_count,
                                              data_string=data_str))
+
+    def execute_dynamo_definition(self, definition_path,
+                                  show_ui=False, shutdown=True,
+                                  automation=False, path_exec=True):
+        """Execute a dynamo definition.
+
+        Args:
+            definition_path (str): full path to dynamo definition file
+            show_ui (bool): show dynamo UI at execution
+            shutdown (bool): shutdown model after execution
+            automation (bool): activate dynamo automation
+            path_exec (bool): activate dynamo path execute
+
+        Examples:
+            >>> jm = JournalMaker()
+            >>> jm.execute_dynamo_definition(
+            ...     definition_path='C:/testdef.dyn',
+            ...     show_ui=True,
+            ...     shutdown=True
+            ... )
+        """
+        self._add_entry(templates.DYNAMO_COMMAND
+                                 .format(dynamo_def_path=definition_path,
+                                         dyn_show_ui=show_ui,
+                                         dyn_automation=automation,
+                                         dyn_path_exec=path_exec,
+                                         dyn_shutdown=shutdown))
 
     def import_family(self, rfa_file):
         """Append a import family entry to the journal.

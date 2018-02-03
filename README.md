@@ -45,6 +45,11 @@ journal_maker.execute_command(tab_name='Add-Ins',
                               command_class='Command Classname',
                               command_data=cmdata)
 
+# execute dynamo definition
+journal_maker.execute_dynamo_definition(definition_path='C:/testdef.dyn',
+                                      show_ui=True,
+                                      shutdown=True)
+
 # load a family
 journal_maker.import_family(RFA_file_path)
 

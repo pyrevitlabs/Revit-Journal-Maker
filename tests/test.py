@@ -1,3 +1,4 @@
+# pylama:skip=1
 import sys
 import os.path as op
 
@@ -6,6 +7,9 @@ sys.path.append(op.dirname(testpath))
 
 
 import rjm
+
+print('Testing rjm version: {}'.format(rjm.__version__))
+
 journal_maker = rjm.JournalMaker(permissive=True)
 
 # creating a new model (template_name is optional)
@@ -44,6 +48,11 @@ journal_maker.execute_command(tab_name='Add-Ins',
                               command_module='Addon Application Namespace',
                               command_class='Command Classname',
                               command_data=cmdata)
+
+# execute dynamo definition
+journal_maker.execute_dynamo_definition(definition_path='C:/testdef.dyn',
+                                        show_ui=True,
+                                        shutdown=True)
 
 # load a family
 journal_maker.import_family('RFA_file_path')
