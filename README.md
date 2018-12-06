@@ -1,3 +1,5 @@
+[![PyPi](https://img.shields.io/pypi/v/rjm.svg)](https://pypi.org/project/rjm)
+
 # Revit Journal Maker
 
 python libray for writing/reading journal files for Autodesk Revit
