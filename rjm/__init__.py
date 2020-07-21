@@ -56,7 +56,8 @@ class JournalMaker(object):
         """
         self._journal_contents += entry_string
 
-    def _init_journal(self, permissive=True):
+    def _init_journal(self, permissive=True,
+                      take_default_action=True, usedx9accel=True):
         """Add the initialization lines to the journal.
 
         By default adds JrnObj variable and timestamp to the journal contents.
@@ -67,10 +68,17 @@ class JournalMaker(object):
                                Some still do.
         """
         nowstamp = datetime.now().strftime("%d-%b-%Y %H:%M:%S.%f")[:-3]
-        self._add_entry(templates.INIT
-                                 .format(time_stamp=nowstamp))
-        if permissive:
-            self._add_entry(templates.INIT_DEBUG)
+        self._add_entry(templates.INIT.format(time_stamp=nowstamp))
+
+        # add debug options
+        self._add_entry(
+            templates.INIT_DEBUG.format(
+                takedefaultaction=1 if take_default_action else 0,
+                permissive=1 if permissive else 0,
+                permissive_jrn=1 if permissive else 0,
+                usedx9accel=1 if usedx9accel else 0
+            )
+        )
 
     def _new_from_rft(self, base_template, rft_file):
         """Append a new file from .rft entry to the journal.
