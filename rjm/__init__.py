@@ -28,13 +28,13 @@ from rjm import entries
 
 
 # rjm version
-__version__ = '1.3.0'
+__version__ = '1.4.0'
 
 
 class JournalMaker(object):
     """Handles composing and writing a journal file for Autodesk Revit."""
 
-    def __init__(self, permissive=True):
+    def __init__(self, permissive=True, take_default_action=True):
         """Inititalize the journal maker object.
 
         Appends the first lines in the journal (JrnObj variable and timestamp)
@@ -44,9 +44,14 @@ class JournalMaker(object):
             permissive (bool): if True most errors in journal will not
                                cause Revit to stop journal execution.
                                Some still do.
+            take_default_action (bool): If True, causes Revit to take the
+                                        default action on all the popups
         """
         self._journal_contents = ''
-        self._init_journal(permissive=permissive)
+        self._init_journal(
+            permissive=permissive,
+            take_default_action=take_default_action,
+            )
 
     def _add_entry(self, entry_string):
         """Append the provided string to the journal contents.
