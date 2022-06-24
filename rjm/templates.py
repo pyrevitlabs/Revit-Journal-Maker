@@ -312,10 +312,10 @@ Jrn.Command "Ribbon" , "Save the active project back to the Central Model , ID_F
 """
 
 # template options for syncinc workshared model
-FILE_SYNC_COMPACT = """' Set compact central checkbox to {compact_central}
+FILE_SYNC_COMPACT = """' Set compact central checkbox
 Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMaster" _
 	, "Compact Central Model (slow), Control_Revit_ForceCompactCentralModel" _
-	, {compact_central}
+	, True
 """
 
 FILE_SYNC_RELEASE_BORROWED = """' Set compact central checkbox
