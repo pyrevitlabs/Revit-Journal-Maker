@@ -318,19 +318,19 @@ Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMa
 	, True
 """
 
-FILE_SYNC_RELEASE_BORROWED = """' Set compact central checkbox
+FILE_SYNC_RELEASE_BORROWED = """' Set release borrowed checkbox
 Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMaster" _
 	, "Borrowed Elements, Control_Revit_ReturnBorrowedElements" _
 	, True
 """
 
-FILE_SYNC_RELEASE_USERWORKSETS = """' Set compact central checkbox
+FILE_SYNC_RELEASE_USERWORKSETS = """' Set release userworksets checkbox
 Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMaster" _
 	, "User-created Worksets, Control_Revit_RelinqUserCreatedPartitions" _
 	, True
 """
 
-FILE_SYNC_RELEASE_SAVELOCAL = """' Set compact central checkbox to
+FILE_SYNC_RELEASE_SAVELOCAL = """' Set release savelocal checkbox
 Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMaster" _
 	, "Save Local File before and after synchronizing with central, Control_Revit_SavePartitionsToLocal" _
 	, True
