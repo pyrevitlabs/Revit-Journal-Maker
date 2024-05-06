@@ -312,25 +312,25 @@ Jrn.Command "Ribbon" , "Save the active project back to the Central Model , ID_F
 """
 
 # template options for syncinc workshared model
-FILE_SYNC_COMPACT = """' Set compact central checkbox to {compact_central}
+FILE_SYNC_COMPACT = """' Set compact central checkbox
 Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMaster" _
 	, "Compact Central Model (slow), Control_Revit_ForceCompactCentralModel" _
-	, {compact_central}
+	, True
 """
 
-FILE_SYNC_RELEASE_BORROWED = """' Set compact central checkbox
+FILE_SYNC_RELEASE_BORROWED = """' Set release borrowed checkbox
 Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMaster" _
 	, "Borrowed Elements, Control_Revit_ReturnBorrowedElements" _
 	, True
 """
 
-FILE_SYNC_RELEASE_USERWORKSETS = """' Set compact central checkbox
+FILE_SYNC_RELEASE_USERWORKSETS = """' Set release userworksets checkbox
 Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMaster" _
 	, "User-created Worksets, Control_Revit_RelinqUserCreatedPartitions" _
 	, True
 """
 
-FILE_SYNC_RELEASE_SAVELOCAL = """' Set compact central checkbox to
+FILE_SYNC_RELEASE_SAVELOCAL = """' Set release savelocal checkbox
 Jrn.CheckBox "Modal , Synchronize with Central , Dialog_Revit_PartitionsSaveToMaster" _
 	, "Save Local File before and after synchronizing with central, Control_Revit_SavePartitionsToLocal" _
 	, True
